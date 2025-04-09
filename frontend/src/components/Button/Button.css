@@ -1,0 +1,33 @@
+.button {
+    width: 100%;
+    height: 60px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    margin: 5px;
+    transition: all 0.2s;
+}
+
+.button:hover {
+    background-color: #ddd;
+}
+
+.operator {
+    background-color: #ff9500;
+    color: white;
+}
+
+.operator:hover {
+    background-color: #e08900;
+}
+
+.equals {
+    grid-column: span 2;
+    background-color: #4CAF50;
+}
+
+.equals:hover {
+    background-color: #3e8e41;
+}

@@ -1,0 +1,8 @@
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 20px;
+    background-color: #444;
+    border-radius: 10px;
+}
