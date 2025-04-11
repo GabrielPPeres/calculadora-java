@@ -11,26 +11,38 @@ public class InputValidator {
             throw new IllegalArgumentException(MensagensConstantes.ERRO_EXPRESSAO_INVALIDA);
         }
 
-        if (!expressao.matches("^[0-9+\\-*/. ]+$")) {
-            throw new IllegalArgumentException(MensagensConstantes.ERRO_EXPRESSAO_INVALIDA);
+        if (!expressao.matches("^[0-9+\\-*/., ]+$")) {
+            throw new IllegalArgumentException(MensagensConstantes.ERRO_CARACTERES_INVALIDOS);
         }
 
         if (expressao.matches(".*[+\\-*/]$")) {
             throw new IllegalArgumentException(MensagensConstantes.ERRO_EXPRESSAO_INVALIDA);
         }
+
+        if (expressao.matches(".*[+\\-*/][+\\-*/].*")) {
+            throw new IllegalArgumentException(MensagensConstantes.ERRO_OPERADORES_DUPLICADOS);
+        }
+    }
+
+    public void validarNumeros(float[] numeros) {
+        if (numeros == null || numeros.length == 0) {
+            throw new IllegalArgumentException("Nenhum número encontrado na expressão");
+        }
+        for (float numero : numeros) {
+
+            if (Float.isNaN(numero) || Float.isInfinite(numero)) {
+                throw new IllegalArgumentException("A expressão contém números inválidos");
+            }
+        }
     }
 
     public void verificarDivisaoPorZero(String expressao) throws ArithmeticException {
-        if (expressao.contains("/0") && !expressao.contains("/0.")) {
+        String expressaoNormalizada = expressao.replace(',', '.');
+
+        if (expressaoNormalizada.matches(".*/(0(\\.0*)?)[^0-9].*") ||
+                expressaoNormalizada.matches(".*/(0(\\.0*)?)$")) {
             throw new ArithmeticException(MensagensConstantes.ERRO_DIVISAO_ZERO);
         }
-    }
 
-    public void validarNumeros(float[] numeros) throws NumberFormatException {
-        for (float num : numeros) {
-            if (Float.isInfinite(num) || Float.isNaN(num)) {
-                throw new NumberFormatException(MensagensConstantes.ERRO_FORMATO_NUMERO);
-            }
-        }
     }
 }

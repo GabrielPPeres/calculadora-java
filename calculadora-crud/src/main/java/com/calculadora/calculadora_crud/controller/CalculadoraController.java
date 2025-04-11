@@ -27,4 +27,5 @@ public class CalculadoraController {
         ResultadoDTO resultado = calculadoraService.calcularExpressao(expressao);
         return ResponseEntity.ok(resultado);
     }
+
 }

@@ -12,7 +12,8 @@ public class ExpressaoParser {
     }
 
     public float[] extrairNumeros(String expressao) {
-        String[] partes = expressao.split("[-+*/]");
+        String expressaoNormalizada = expressao.replace(',', '.');
+        String[] partes = expressaoNormalizada.split("[-+*/]");
         float[] numeros = new float[partes.length];
 
         for (int i = 0; i < partes.length; i++) {

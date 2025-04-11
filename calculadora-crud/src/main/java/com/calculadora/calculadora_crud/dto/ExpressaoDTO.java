@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Pattern;
 
 public class ExpressaoDTO {
     @NotBlank(message = "A expressão não pode estar vazia")
-    @Pattern(regexp = "^[0-9+\\-*/. ]+$", message = "Expressão contém caracteres inválidos")
+    @Pattern(regexp = "^[0-9+\\-*/., ]+$", message = "Expressão contém caracteres inválidos")
     private String expressao;
 
     public ExpressaoDTO() {}

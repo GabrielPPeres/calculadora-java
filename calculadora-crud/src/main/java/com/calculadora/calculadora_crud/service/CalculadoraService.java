@@ -38,29 +38,21 @@ public class CalculadoraService {
     }
 
     public ResultadoDTO calcularExpressao(String expressao) {
-        try {
-            validator.validarExpressao(expressao);
-            validator.verificarDivisaoPorZero(expressao);
 
-            float resultado = calcularComPrioridade(expressao);
-            historicoService.salvarCalculo(expressao, resultado);
+        expressao = expressao.trim().replaceAll("\\s+", "");
+        validator.validarExpressao(expressao);
+        validator.verificarDivisaoPorZero(expressao);
 
-            return new ResultadoDTO(resultado, "Cálculo realizado com sucesso");
-        } catch (ExpressaoInvalidaException e) {
-            return new ResultadoDTO(0f, "Erro na expressão: " + e.getMessage());
-        } catch (OperacaoInvalidaException e) {
-            return new ResultadoDTO(0f, "Operação inválida: " + e.getMessage());
-        } catch (ArithmeticException e) {
-            return new ResultadoDTO(0f, "Erro matemático: " + e.getMessage());
-        } catch (Exception e) {
-            return new ResultadoDTO(0f, "Erro inesperado: " + e.getMessage());
-        }
-    }
-
-    private float calcularComPrioridade(String expressao) {
         float[] numeros = parser.extrairNumeros(expressao);
         char[] operadores = parser.extrairOperadores(expressao);
 
+        float resultado = calcularComPrioridade(numeros, operadores);
+        historicoService.salvarCalculo(expressao, resultado);
+
+        return new ResultadoDTO(resultado, "Cálculo realizado com sucesso");
+    }
+
+    private float calcularComPrioridade(float[] numeros, char[] operadores) {
         Stack<Float> numerosStack = new Stack<>();
         Stack<Character> operadoresStack = new Stack<>();
 
@@ -99,7 +91,7 @@ public class CalculadoraService {
             case '-' -> subtracaoService.calcular(num1, num2);
             case '*' -> multiplicacaoService.calcular(num1, num2);
             case '/' -> divisaoService.calcular(num1, num2);
-            default -> throw new IllegalArgumentException("Operador inválido: " + operador);
+            default -> throw new OperacaoInvalidaException("Operador inválido: " + operador);
         };
     }
 }
